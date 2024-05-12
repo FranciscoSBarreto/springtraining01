@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.course.rest.webservices.restfulwebservices.dao.UserDaoService;
+import com.course.rest.webservices.restfulwebservices.exceptions.UserNotFoundException;
 import com.course.rest.webservices.restfulwebservices.models.User;
 
 @RestController
@@ -30,7 +31,11 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable Integer id) {
-        return service.findOne(id);
+        User user = service.findOne(id);
+        if (user == null) {
+            throw new UserNotFoundException("id: " + id);
+        }
+        return user;
     }
 
     @PostMapping("/users")
