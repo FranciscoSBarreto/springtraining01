@@ -3,7 +3,7 @@ package com.course.rest.webservices.restfulwebservices.dao;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 import com.course.rest.webservices.restfulwebservices.models.User;
@@ -29,6 +29,11 @@ public class UserDaoService {
         return users.stream()
                 .filter(user -> user.getId() == id)
                 .findFirst().orElse(null);
+    }
+
+    public void deleteById(Integer id) {
+        Predicate<? super User> predicate = user -> user.getId().equals(id);
+        users.removeIf(predicate);
     }
 
     public User save(User user) {
